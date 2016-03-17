@@ -33,6 +33,14 @@ define Package/libflac
   URL:=http://flac.sourceforge.net/
 endef
 
+define Package/flac
+  SECTION:=multimedia
+  CATEGORY:=Multimedia
+  DEPENDS:=+libflac
+  TITLE:=Free Lossless Audio Codec converter
+  URL:=http://flac.sourceforge.net/
+endef
+
 define Build/Configure
 	$(call Build/Configure/Default, \
 		--disable-cpplibs \
@@ -69,9 +77,22 @@ define Build/InstallDev
 		$(1)/usr/share/aclocal/
 endef
 
+define Build/Compile
+	+$(MAKE) $(PKG_JOBS) -C $(PKG_BUILD_DIR) \
+		DESTDIR="$(PKG_INSTALL_DIR)" \
+		CC="$(TARGET_CC)" \
+		install
+endef
+
 define Package/libflac/install
 	$(INSTALL_DIR) $(1)/usr/lib
 	$(CP) $(PKG_INSTALL_DIR)/usr/lib/libFLAC.so* $(1)/usr/lib/
 endef
 
+define Package/flac/install
+	$(INSTALL_DIR) $(1)/usr/bin
+	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/usr/bin/flac $(1)/usr/bin/
+endef
+
 $(eval $(call BuildPackage,libflac))
+$(eval $(call BuildPackage,flac))
