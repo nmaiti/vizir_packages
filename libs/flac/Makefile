@@ -36,7 +36,7 @@ endef
 define Package/flac
   SECTION:=multimedia
   CATEGORY:=Multimedia
-  DEPENDS:=+libflac
+  DEPENDS:=+libflac +libiconv
   TITLE:=Free Lossless Audio Codec converter
   URL:=http://flac.sourceforge.net/
 endef
